@@ -1,0 +1,11 @@
+name: 'PnP Sample Repo Scanner'
+description: 'Scans PnP samples to gather metrics on the existing samples'
+author: 'GitHub'
+inputs:
+  dirs:
+    description: 'Directories to scan (default: [Samples])'
+    required: false
+    default: '[Samples]'
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
