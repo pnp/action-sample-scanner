@@ -1,9 +1,12 @@
 import { debug } from "./logging";
 import { setFailed } from "@actions/core";
 import { loadInputs } from "./utils";
+import * as core from "@actions/core";
 
 (async function (): Promise<void> {
     try {
+
+        core.debug("This is a test.");
 
         debug("Starting action");
 

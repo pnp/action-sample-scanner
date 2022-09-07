@@ -2866,8 +2866,10 @@ function loadInputs(model) {
 
 
 
+
 (async function () {
     try {
+        core.debug("This is a test.");
         debug("Starting action");
         debug("Parsing Inputs");
         const inputs = loadInputs({
