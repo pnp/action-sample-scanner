@@ -2821,7 +2821,7 @@ __nccwpck_require__.r(__webpack_exports__);
 var core = __nccwpck_require__(186);
 ;// CONCATENATED MODULE: ./src/logging.ts
 
-function log(message) {
+function debug(message) {
     (0,core.debug)(message);
 }
 
@@ -2848,7 +2848,16 @@ function readJSON(path) {
 }
 function loadInputs(model) {
     return Reflect.ownKeys(model).reduce((prev, key) => {
-        prev[key] = (0,core.getInput)(key);
+        if (typeof prev[key] !== "string") {
+            prev[key] = JSON.parse((0,core.getInput)(key, {
+                trimWhitespace: true,
+            }));
+        }
+        else {
+            prev[key] = (0,core.getInput)(key, {
+                trimWhitespace: false,
+            });
+        }
         return prev;
     }, model);
 }
@@ -2859,16 +2868,17 @@ function loadInputs(model) {
 
 (async function () {
     try {
-        log("Starting action");
-        log("Parsing Inputs");
+        debug("Starting action");
+        debug("Parsing Inputs");
         const inputs = loadInputs({
             dirs: [],
         });
-        log(`inputs: ${JSON.stringify(inputs)}`);
+        debug(`inputs: ${JSON.stringify(inputs)}`);
+        console.log(JSON.stringify(inputs));
         // get dirs
         // run dir through each rule (sub process?)
         //core.setOutput('time', new Date().toTimeString())
-        log("Ending Action");
+        debug("Ending Action");
     }
     catch (error) {
         if (error instanceof Error) {
