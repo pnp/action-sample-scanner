@@ -1,32 +1,34 @@
-import { debug } from "./logging";
+import { debug, log } from "./logging";
 import { setFailed } from "@actions/core";
-import { loadInputs } from "./utils";
-import * as core from "@actions/core";
+import { loadInputs, getSubDirPaths } from "./utils";
 
 (async function (): Promise<void> {
     try {
 
-        core.debug("This is a test.");
+        log("Starting action");
 
-        debug("Starting action");
+        log("Parsing Inputs");
 
-        debug("Parsing Inputs");
-
-        const inputs = loadInputs({
+        const { dirs } = loadInputs({
             dirs: [],
         });
 
-        debug(`inputs: ${JSON.stringify(inputs)}`);
+        const scanningPaths = dirs.reduce((paths: string[], scanRoot: string) => {
 
-        console.log(JSON.stringify(inputs));
+            paths.push(...getSubDirPaths(scanRoot));
 
-        // get dirs
+            return paths;
+        
+        }, []);
 
-        // run dir through each rule (sub process?)
+        // get our directories (the children of the supplied dirs)
+        for (let i = 0; i < scanningPaths.length; i++) {
+            debug(`Processing scanning path: '${scanningPaths[i]}'`);
+        }
 
         //core.setOutput('time', new Date().toTimeString())
 
-        debug("Ending Action");
+        log("Ending Action");
 
     } catch (error) {
 

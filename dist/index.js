@@ -2824,10 +2824,17 @@ var core = __nccwpck_require__(186);
 function debug(message) {
     (0,core.debug)(message);
 }
+function log(message) {
+    console.log(message);
+}
 
 // EXTERNAL MODULE: external "fs"
 var external_fs_ = __nccwpck_require__(147);
+// EXTERNAL MODULE: external "path"
+var external_path_ = __nccwpck_require__(17);
 ;// CONCATENATED MODULE: ./src/utils.ts
+
+
 
 
 function readJSON(path) {
@@ -2847,7 +2854,7 @@ function readJSON(path) {
     });
 }
 function loadInputs(model) {
-    return Reflect.ownKeys(model).reduce((prev, key) => {
+    const parsed = Reflect.ownKeys(model).reduce((prev, key) => {
         if (typeof prev[key] !== "string") {
             prev[key] = JSON.parse((0,core.getInput)(key, {
                 trimWhitespace: true,
@@ -2860,27 +2867,36 @@ function loadInputs(model) {
         }
         return prev;
     }, model);
+    debug(`Inputs: ${JSON.stringify(parsed)}`);
+    return parsed;
+}
+function getSubDirPaths(root) {
+    // after: https://stackoverflow.com/questions/18112204/get-all-directories-within-directory-nodejs
+    const isDirectory = (root, dirName) => (0,external_fs_.lstatSync)((0,external_path_.join)(root, dirName)).isDirectory();
+    return (0,external_fs_.readdirSync)(root).filter(dirName => isDirectory(root, dirName));
 }
 
 ;// CONCATENATED MODULE: ./src/main.ts
 
 
 
-
 (async function () {
     try {
-        core.debug("This is a test.");
-        debug("Starting action");
-        debug("Parsing Inputs");
-        const inputs = loadInputs({
+        log("Starting action");
+        log("Parsing Inputs");
+        const { dirs } = loadInputs({
             dirs: [],
         });
-        debug(`inputs: ${JSON.stringify(inputs)}`);
-        console.log(JSON.stringify(inputs));
-        // get dirs
-        // run dir through each rule (sub process?)
+        const scanningPaths = dirs.reduce((paths, scanRoot) => {
+            paths.push(...getSubDirPaths(scanRoot));
+            return paths;
+        }, []);
+        // get our directories (the children of the supplied dirs)
+        for (let i = 0; i < scanningPaths.length; i++) {
+            debug(`Processing scanning path: '${scanningPaths[i]}'`);
+        }
         //core.setOutput('time', new Date().toTimeString())
-        debug("Ending Action");
+        log("Ending Action");
     }
     catch (error) {
         if (error instanceof Error) {

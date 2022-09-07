@@ -1,5 +1,7 @@
 import { getInput } from "@actions/core";
-import { readFile } from "fs";
+import { readFile, lstatSync, readdirSync } from "fs";
+import { join } from "path";
+import { debug } from "./logging";
 
 export function readJSON<T>(path: string): Promise<T> {
 
@@ -27,7 +29,7 @@ export function readJSON<T>(path: string): Promise<T> {
 
 export function loadInputs<T extends object>(model: T): T {
 
-    return Reflect.ownKeys(model).reduce((prev, key: string) => {
+    const parsed = Reflect.ownKeys(model).reduce((prev, key: string) => {
 
         if (typeof prev[key] !== "string") {
 
@@ -44,4 +46,16 @@ export function loadInputs<T extends object>(model: T): T {
         return prev;
 
     }, model);
+
+    debug(`Inputs: ${JSON.stringify(parsed)}`);
+
+    return parsed;
+}
+
+export function getSubDirPaths(root: string): string[] {
+    // after: https://stackoverflow.com/questions/18112204/get-all-directories-within-directory-nodejs
+
+    const isDirectory = (root, dirName) => lstatSync(join(root, dirName)).isDirectory();
+
+    return readdirSync(root).filter(dirName => isDirectory(root, dirName));
 }
