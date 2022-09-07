@@ -65,10 +65,9 @@ export async function runner(scanPaths: string[]) {
         }
     }
 
-
-
     // add a table to the summary
     summary.addTable(summaryRows);
+    summary.write();
 
     // export interface SummaryTableCell {
     //     /**

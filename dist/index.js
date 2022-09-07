@@ -2940,6 +2940,7 @@ async function runner(scanPaths) {
     }
     // add a table to the summary
     core.summary.addTable(summaryRows);
+    core.summary.write();
     // export interface SummaryTableCell {
     //     /**
     //      * Cell content
