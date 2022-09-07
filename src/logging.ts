@@ -1,5 +1,5 @@
-import { debug } from '@actions/core'
+import { debug as coreDebug } from '@actions/core'
 
-export function log(message: string) {
-    debug(message);
+export function debug(message: string) {
+    coreDebug(message);
 }

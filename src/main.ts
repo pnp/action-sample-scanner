@@ -1,20 +1,21 @@
-import { log } from "./logging";
+import { debug } from "./logging";
 import { setFailed } from "@actions/core";
 import { loadInputs } from "./utils";
 
 (async function (): Promise<void> {
     try {
 
-        log("Starting action");
+        debug("Starting action");
 
-        log("Parsing Inputs");
+        debug("Parsing Inputs");
 
         const inputs = loadInputs({
             dirs: [],
         });
 
-        log(`inputs: ${JSON.stringify(inputs)}`);
+        debug(`inputs: ${JSON.stringify(inputs)}`);
 
+        console.log(JSON.stringify(inputs));
 
         // get dirs
 
@@ -22,7 +23,7 @@ import { loadInputs } from "./utils";
 
         //core.setOutput('time', new Date().toTimeString())
 
-        log("Ending Action");
+        debug("Ending Action");
 
     } catch (error) {
 
