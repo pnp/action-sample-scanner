@@ -2927,6 +2927,7 @@ async function loadRules(path = "/rules") {
     const rules = [];
     const ruleDirs = getDirFilePaths(path);
     for (let i = 0; i < ruleDirs.length; i++) {
+        debug(`Loading rule ${ruleDirs[i]}`);
         const { name, execute } = await __nccwpck_require__(70)(ruleDirs[i]);
         rules.push([name, execute]);
     }

@@ -103,6 +103,7 @@ async function loadRules(path = "/rules"): Promise<RuleTuple[]> {
 
     for (let i = 0; i < ruleDirs.length; i++) {
 
+        debug(`Loading rule ${ruleDirs[i]}`);
         const { name, execute } = await import(ruleDirs[i]);
 
         rules.push([name, execute]);
