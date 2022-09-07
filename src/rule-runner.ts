@@ -1,3 +1,3 @@
-export function ruleRunner {
-
+export function ruleRunner() {
+    return;
 }
