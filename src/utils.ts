@@ -53,9 +53,6 @@ export function loadInputs<T extends object>(model: T): T {
 }
 
 export function getSubDirPaths(root: string): string[] {
-    // after: https://stackoverflow.com/questions/18112204/get-all-directories-within-directory-nodejs
 
-    const isDirectory = (root, dirName) => lstatSync(join(root, dirName)).isDirectory();
-
-    return readdirSync(root).filter(dirName => isDirectory(root, dirName));
+    return readdirSync(root).map(d => join(root, d)).filter(dirName => lstatSync(dirName).isDirectory());
 }

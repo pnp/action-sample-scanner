@@ -1,6 +1,7 @@
-import { debug, log } from "./logging";
+import { log } from "./logging";
 import { setFailed } from "@actions/core";
 import { loadInputs, getSubDirPaths } from "./utils";
+import { runner } from "./rule-runner";
 
 (async function (): Promise<void> {
     try {
@@ -13,6 +14,7 @@ import { loadInputs, getSubDirPaths } from "./utils";
             dirs: [],
         });
 
+        // get all the dirs we want to scan
         const scanningPaths = dirs.reduce((paths: string[], scanRoot: string) => {
 
             paths.push(...getSubDirPaths(scanRoot));
@@ -21,12 +23,7 @@ import { loadInputs, getSubDirPaths } from "./utils";
         
         }, []);
 
-        // get our directories (the children of the supplied dirs)
-        for (let i = 0; i < scanningPaths.length; i++) {
-            debug(`Processing scanning path: '${scanningPaths[i]}'`);
-        }
-
-        //core.setOutput('time', new Date().toTimeString())
+        await runner(scanningPaths);
 
         log("Ending Action");
 

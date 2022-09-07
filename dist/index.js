@@ -2673,6 +2673,25 @@ exports["default"] = _default;
 
 /***/ }),
 
+/***/ 70:
+/***/ ((module) => {
+
+function webpackEmptyAsyncContext(req) {
+	// Here Promise.resolve().then() is used instead of new Promise() to prevent
+	// uncaught exception popping up in devtools
+	return Promise.resolve().then(() => {
+		var e = new Error("Cannot find module '" + req + "'");
+		e.code = 'MODULE_NOT_FOUND';
+		throw e;
+	});
+}
+webpackEmptyAsyncContext.keys = () => ([]);
+webpackEmptyAsyncContext.resolve = webpackEmptyAsyncContext;
+webpackEmptyAsyncContext.id = 70;
+module.exports = webpackEmptyAsyncContext;
+
+/***/ }),
+
 /***/ 491:
 /***/ ((module) => {
 
@@ -2794,6 +2813,11 @@ module.exports = require("util");
 /******/ 	}
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__nccwpck_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -2839,7 +2863,7 @@ var external_path_ = __nccwpck_require__(17);
 
 function readJSON(path) {
     return new Promise((resolve, reject) => {
-        readFile(path, { encoding: "utf-8" }, (err, data) => {
+        (0,external_fs_.readFile)(path, { encoding: "utf-8" }, (err, data) => {
             try {
                 if (err) {
                     throw err;
@@ -2871,12 +2895,95 @@ function loadInputs(model) {
     return parsed;
 }
 function getSubDirPaths(root) {
-    // after: https://stackoverflow.com/questions/18112204/get-all-directories-within-directory-nodejs
-    const isDirectory = (root, dirName) => (0,external_fs_.lstatSync)((0,external_path_.join)(root, dirName)).isDirectory();
-    return (0,external_fs_.readdirSync)(root).filter(dirName => isDirectory(root, dirName));
+    return (0,external_fs_.readdirSync)(root).map(d => (0,external_path_.join)(root, d)).filter(dirName => (0,external_fs_.lstatSync)(dirName).isDirectory());
+}
+
+;// CONCATENATED MODULE: ./src/rule-runner.ts
+
+
+
+
+async function runner(scanPaths) {
+    const rules = await loadRules();
+    const summaryRows = [];
+    debug(`Loaded ${rules.length} rules`);
+    // columns
+    // 0: name
+    // 1: path
+    // 2: last modified
+    // 3: rule[0]
+    // 4: rule[1]
+    // 5: rule[n]
+    // add headers
+    summaryRows.push([{
+            data: "Name",
+            header: true,
+        },
+        {
+            data: "Version",
+            header: true,
+        },
+        {
+            data: "Path",
+            header: true,
+        },
+        ...rules.map((r) => ({
+            data: r[0],
+            header: true,
+        }))]);
+    for (let i = 0; i < scanPaths.length; i++) {
+        const scanPath = scanPaths[i];
+        debug(`Processing scanning path: '${scanPath}'`);
+        const scanSummaryRow = [];
+        const packageFile = await readJSON((0,external_path_.join)(scanPath, "package.json"));
+        scanSummaryRow.push(packageFile.name, packageFile.version, scanPath);
+        for (let r = 0; r < rules.length; r++) {
+            const rule = rules[r];
+            try {
+                scanSummaryRow.push(await rule[1](scanPath, packageFile));
+            }
+            catch (e) {
+                scanSummaryRow.push("error");
+                debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`);
+            }
+        }
+    }
+    // add a table to the summary
+    core.summary.addTable(summaryRows);
+    // export interface SummaryTableCell {
+    //     /**
+    //      * Cell content
+    //      */
+    //     data: string;
+    //     /**
+    //      * Render cell as header
+    //      * (optional) default: false
+    //      */
+    //     header?: boolean;
+    //     /**
+    //      * Number of columns the cell extends
+    //      * (optional) default: '1'
+    //      */
+    //     colspan?: string;
+    //     /**
+    //      * Number of rows the cell extends
+    //      * (optional) default: '1'
+    //      */
+    //     rowspan?: string;
+    // }
+}
+async function loadRules(path = "/rules") {
+    const rules = [];
+    const ruleDirs = getSubDirPaths(path);
+    for (let i = 0; i < ruleDirs.length; i++) {
+        const { name, execute } = await __nccwpck_require__(70)(ruleDirs[i]);
+        rules.push([name, execute]);
+    }
+    return rules;
 }
 
 ;// CONCATENATED MODULE: ./src/main.ts
+
 
 
 
@@ -2887,15 +2994,12 @@ function getSubDirPaths(root) {
         const { dirs } = loadInputs({
             dirs: [],
         });
+        // get all the dirs we want to scan
         const scanningPaths = dirs.reduce((paths, scanRoot) => {
             paths.push(...getSubDirPaths(scanRoot));
             return paths;
         }, []);
-        // get our directories (the children of the supplied dirs)
-        for (let i = 0; i < scanningPaths.length; i++) {
-            debug(`Processing scanning path: '${scanningPaths[i]}'`);
-        }
-        //core.setOutput('time', new Date().toTimeString())
+        await runner(scanningPaths);
         log("Ending Action");
     }
     catch (error) {
