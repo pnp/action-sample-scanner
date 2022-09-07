@@ -1,4 +1,4 @@
-import { getSubDirPaths, readJSON } from "./utils";
+import { getDirFilePaths, readJSON } from "./utils";
 import { summary } from "@actions/core";
 import { debug } from "./logging";
 import { join } from "path";
@@ -99,7 +99,7 @@ export type RuleTuple = [string, RuleExec]
 async function loadRules(path = "/rules"): Promise<RuleTuple[]> {
 
     const rules = [];
-    const ruleDirs = getSubDirPaths(path);
+    const ruleDirs = getDirFilePaths(path);
 
     for (let i = 0; i < ruleDirs.length; i++) {
 

@@ -2845,6 +2845,9 @@ function loadInputs(model) {
 function getSubDirPaths(root) {
     return (0,external_fs_.readdirSync)(root).map(d => (0,external_path_.join)(root, d)).filter(dirName => (0,external_fs_.lstatSync)(dirName).isDirectory());
 }
+function getDirFilePaths(root) {
+    return (0,external_fs_.readdirSync)(root).map(d => (0,external_path_.join)(root, d)).filter(dirName => !(0,external_fs_.lstatSync)(dirName).isDirectory());
+}
 
 ;// CONCATENATED MODULE: ./src/rule-runner.ts
 
@@ -2922,7 +2925,7 @@ async function runner(scanPaths) {
 }
 async function loadRules(path = "/rules") {
     const rules = [];
-    const ruleDirs = getSubDirPaths(path);
+    const ruleDirs = getDirFilePaths(path);
     for (let i = 0; i < ruleDirs.length; i++) {
         const { name, execute } = await __nccwpck_require__(70)(ruleDirs[i]);
         rules.push([name, execute]);

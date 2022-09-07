@@ -56,3 +56,8 @@ export function getSubDirPaths(root: string): string[] {
 
     return readdirSync(root).map(d => join(root, d)).filter(dirName => lstatSync(dirName).isDirectory());
 }
+
+export function getDirFilePaths(root: string): string[] {
+
+    return readdirSync(root).map(d => join(root, d)).filter(dirName => !lstatSync(dirName).isDirectory());
+}
