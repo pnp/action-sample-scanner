@@ -10,3 +10,7 @@ export interface IPackageFile {
     dependencies: Record<string, string>;
     devDependencies: Record<string, string>;
 }
+
+export type RuleExec = (path: string, packageFile: IPackageFile) => Promise<string>;
+
+export type RuleTuple = [string, RuleExec];

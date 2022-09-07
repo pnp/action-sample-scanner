@@ -1,12 +1,13 @@
-import { getDirFilePaths, readJSON } from "./utils";
+import { readJSON } from "./utils";
 import { summary } from "@actions/core";
 import { debug } from "./logging";
 import { join } from "path";
 import { IPackageFile } from "./types";
+import rules from "./rules";
 
 export async function runner(scanPaths: string[]) {
 
-    const rules = await loadRules();
+    // const rules = await loadRules();
     const summaryRows = [];
 
     debug(`Loaded ${rules.length} rules`);
@@ -92,22 +93,18 @@ export async function runner(scanPaths: string[]) {
     // }
 }
 
-export type RuleExec = (path: string, packageFile: IPackageFile) => Promise<string>;
+// async function loadRules(path = "/rules"): Promise<RuleTuple[]> {
 
-export type RuleTuple = [string, RuleExec]
+//     const rules = [];
+//     const ruleDirs = getDirFilePaths(path);
 
-async function loadRules(path = "/rules"): Promise<RuleTuple[]> {
+//     for (let i = 0; i < ruleDirs.length; i++) {
 
-    const rules = [];
-    const ruleDirs = getDirFilePaths(path);
+//         debug(`Loading rule ${ruleDirs[i]}`);
+//         const { name, execute } = await import(ruleDirs[i]);
 
-    for (let i = 0; i < ruleDirs.length; i++) {
+//         rules.push([name, execute]);
+//     }
 
-        debug(`Loading rule ${ruleDirs[i]}`);
-        const { name, execute } = await import(ruleDirs[i]);
-
-        rules.push([name, execute]);
-    }
-
-    return rules;
-}
+//     return rules;
+// }

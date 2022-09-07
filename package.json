@@ -4,7 +4,6 @@
   "private": true,
   "description": "TypeScript template action",
   "main": "dist/main.js",
-  "type": "module",
   "scripts": {
     "build": "tsc",
     "lint": "eslint src/**/*.ts",

@@ -1,1 +1,1 @@
-{"version":3,"file":"","sourceRoot":"","sources":["file:///C:/github/action-sample-scanner/src/rule-runner.ts"],"names":[],"mappings":"AAIA,OAAO,EAAE,YAAY,EAAE,MAAM,SAAS,CAAC;AAEvC,wBAAsB,MAAM,CAAC,SAAS,EAAE,MAAM,EAAE,iBAsF/C;AAED,oBAAY,QAAQ,GAAG,CAAC,IAAI,EAAE,MAAM,EAAE,WAAW,EAAE,YAAY,KAAK,OAAO,CAAC,MAAM,CAAC,CAAC;AAEpF,oBAAY,SAAS,GAAG,CAAC,MAAM,EAAE,QAAQ,CAAC,CAAA"}
+{"version":3,"file":"","sourceRoot":"","sources":["file:///C:/github/action-sample-scanner/src/rule-runner.ts"],"names":[],"mappings":"AAOA,wBAAsB,MAAM,CAAC,SAAS,EAAE,MAAM,EAAE,iBAsF/C"}
