@@ -13,5 +13,5 @@ jobs:
       - name: Sample Scanner
         uses: pnp/action-sample-scanner@main
         with:
-          scan-dirs: '['testing/samples']'
+          scan-dirs: '["testing/samples"]'
           
