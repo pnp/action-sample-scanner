@@ -63,6 +63,8 @@ export async function runner(scanPaths: string[]) {
                 debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`)
             }
         }
+
+        summaryRows.push(scanSummaryRow);
     }
 
     // add a table to the summary

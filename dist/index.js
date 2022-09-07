@@ -2937,6 +2937,7 @@ async function runner(scanPaths) {
                 debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`);
             }
         }
+        summaryRows.push(scanSummaryRow);
     }
     // add a table to the summary
     core.summary.addTable(summaryRows);
