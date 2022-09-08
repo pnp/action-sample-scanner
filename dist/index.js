@@ -2883,12 +2883,34 @@ async function execute(_path, packageFile) {
     return packageFile.version;
 }
 
+;// CONCATENATED MODULE: ./src/rules/last-modified.ts
+
+const last_modified_name = "Last Modified";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+async function last_modified_execute(path, _packageFile) {
+    return new Promise((resolve, reject) => {
+        try {
+            (0,external_fs_.stat)(path, (err, stats) => {
+                if (err) {
+                    reject(err);
+                }
+                else {
+                    resolve(stats.mtime.toUTCString());
+                }
+            });
+        }
+        catch (e) {
+            reject(e || Error("Unknown error."));
+        }
+    });
+}
+
 ;// CONCATENATED MODULE: ./src/rules/index.ts
 
 
 /* harmony default export */ const rules = ([
     [package_version_name, execute],
-    [package_version_name, execute]
+    [last_modified_name, last_modified_execute]
 ]);
 
 ;// CONCATENATED MODULE: ./src/rule-runner.ts

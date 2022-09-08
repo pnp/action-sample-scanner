@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint src/**/*.ts",
-    "package": "ncc build ./src/main.ts --source-map --license LICENSE"
+    "package": "ncc build ./src/main.ts --source-map --license LICENSE",
+    "local-test-deploy": "npm run package && git add . && git commit -m 'testing' && git push"
   },
   "repository": {
     "type": "git",
