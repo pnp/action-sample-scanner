@@ -2,6 +2,7 @@ import { log } from "./logging";
 import { setFailed } from "@actions/core";
 import { loadInputs, getSubDirPaths } from "./utils";
 import { runner } from "./rule-runner";
+import { init } from "./octo-kit";
 
 (async function (): Promise<void> {
 
@@ -11,9 +12,13 @@ import { runner } from "./rule-runner";
 
         log("Parsing Inputs");
 
-        const { dirs } = loadInputs({
+        const { dirs, token } = loadInputs({
             dirs: [],
+            token: "",
         });
+
+        // init our octokit for later use
+        init(token);
 
         // get all the dirs we want to scan
         const scanningPaths = dirs.reduce((paths: string[], scanRoot: string) => {

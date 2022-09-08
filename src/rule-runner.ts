@@ -8,6 +8,7 @@ import rules from "./rules";
 export async function runner(scanPaths: string[]) {
 
     // const rules = await loadRules();
+    // the summary rows will 
     const summaryRows = [];
 
     debug(`Loaded ${rules.length} rules`);
@@ -42,6 +43,7 @@ export async function runner(scanPaths: string[]) {
 
         const scanSummaryRow = [];
 
+        // we load the package file once so every rule doesn't need to as it will likely be used a lot
         const packageFile = await readJSON<IPackageFile>(join(scanPath, "package.json"));
 
         scanSummaryRow.push(packageFile.name, scanPath);

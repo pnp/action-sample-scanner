@@ -1,32 +1,17 @@
 import { IPackageFile } from "../types";
-import { stat } from "fs";
+import { get } from "../octo-kit";
 
 export const name = "Last Modified";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function execute(path: string, _packageFile: IPackageFile): Promise<string> {
+export async function execute(_path: string, _packageFile: IPackageFile): Promise<string> {
 
-    return new Promise((resolve, reject) => {
+    const octokit = get();
 
-        try {
+    const value = await octokit.rest.repos.get();
 
-            stat(path, (err, stats) => {
-
-
-                if (err) {
-                    
-                    reject(err);
-                } else {
-
-                    resolve(stats.mtime.toUTCString());
-                }
-            });
+    console.log(JSON.stringify(value.data));
 
 
-        } catch (e) {
-
-            reject(e || Error("Unknown error."));
-        }
-
-    });
+    return "testing";
 }

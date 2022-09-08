@@ -6,6 +6,9 @@ inputs:
     description: 'Directories to scan (default: [Samples])'
     required: false
     default: '[Samples]'
+  token:
+    description: 'GitHub token used to communicate with the repo'
+    required: true
 runs:
   using: 'node16'
   main: 'dist/index.js'
