@@ -1,121 +1,81 @@
-{
-    "sha": "c317f3ba81c3ac75047452a5a56b219255dc3fda",
-    "node_id": "C_kwDOH9DXoNoAKGMzMTdmM2JhODFjM2FjNzUwNDc0NTJhNWE1NmIyMTkyNTVkYzNmZGE",
-    "commit": {
+[
+    {
+        "sha": "b2f91c3267af9fc27958ee3265da4aabacd07e7c",
+        "node_id": "C_kwDOH9DXoNoAKGIyZjkxYzMyNjdhZjlmYzI3OTU4ZWUzMjY1ZGE0YWFiYWNkMDdlN2M",
+        "commit": {
+            "author": {
+                "name": "Patrick Rodgers",
+                "email": "patrick.rodgers@microsoft.com",
+                "date": "2022-09-07T16:57:05Z"
+            },
+            "committer": {
+                "name": "Patrick Rodgers",
+                "email": "patrick.rodgers@microsoft.com",
+                "date": "2022-09-07T16:57:05Z"
+            },
+            "message": "wip",
+            "tree": {
+                "sha": "e6732583f62bfe6ba255de9220d638511343fd9a",
+                "url": "https://api.github.com/repos/pnp/action-sample-scanner/git/trees/e6732583f62bfe6ba255de9220d638511343fd9a"
+            },
+            "url": "https://api.github.com/repos/pnp/action-sample-scanner/git/commits/b2f91c3267af9fc27958ee3265da4aabacd07e7c",
+            "comment_count": 0,
+            "verification": {
+                "verified": false,
+                "reason": "unsigned",
+                "signature": null,
+                "payload": null
+            }
+        },
+        "url": "https://api.github.com/repos/pnp/action-sample-scanner/commits/b2f91c3267af9fc27958ee3265da4aabacd07e7c",
+        "html_url": "https://github.com/pnp/action-sample-scanner/commit/b2f91c3267af9fc27958ee3265da4aabacd07e7c",
+        "comments_url": "https://api.github.com/repos/pnp/action-sample-scanner/commits/b2f91c3267af9fc27958ee3265da4aabacd07e7c/comments",
         "author": {
-            "name": "Patrick Rodgers",
-            "email": "patrick.rodgers@microsoft.com",
-            "date": "2022-09-08T12:59:35Z"
+            "login": "patrick-rodgers",
+            "id": 13154702,
+            "node_id": "MDQ6VXNlcjEzMTU0NzAy",
+            "avatar_url": "https://avatars.githubusercontent.com/u/13154702?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/patrick-rodgers",
+            "html_url": "https://github.com/patrick-rodgers",
+            "followers_url": "https://api.github.com/users/patrick-rodgers/followers",
+            "following_url": "https://api.github.com/users/patrick-rodgers/following{/other_user}",
+            "gists_url": "https://api.github.com/users/patrick-rodgers/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/patrick-rodgers/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/patrick-rodgers/subscriptions",
+            "organizations_url": "https://api.github.com/users/patrick-rodgers/orgs",
+            "repos_url": "https://api.github.com/users/patrick-rodgers/repos",
+            "events_url": "https://api.github.com/users/patrick-rodgers/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/patrick-rodgers/received_events",
+            "type": "User",
+            "site_admin": false
         },
         "committer": {
-            "name": "Patrick Rodgers",
-            "email": "patrick.rodgers@microsoft.com",
-            "date": "2022-09-08T12:59:35Z"
+            "login": "patrick-rodgers",
+            "id": 13154702,
+            "node_id": "MDQ6VXNlcjEzMTU0NzAy",
+            "avatar_url": "https://avatars.githubusercontent.com/u/13154702?v=4",
+            "gravatar_id": "",
+            "url": "https://api.github.com/users/patrick-rodgers",
+            "html_url": "https://github.com/patrick-rodgers",
+            "followers_url": "https://api.github.com/users/patrick-rodgers/followers",
+            "following_url": "https://api.github.com/users/patrick-rodgers/following{/other_user}",
+            "gists_url": "https://api.github.com/users/patrick-rodgers/gists{/gist_id}",
+            "starred_url": "https://api.github.com/users/patrick-rodgers/starred{/owner}{/repo}",
+            "subscriptions_url": "https://api.github.com/users/patrick-rodgers/subscriptions",
+            "organizations_url": "https://api.github.com/users/patrick-rodgers/orgs",
+            "repos_url": "https://api.github.com/users/patrick-rodgers/repos",
+            "events_url": "https://api.github.com/users/patrick-rodgers/events{/privacy}",
+            "received_events_url": "https://api.github.com/users/patrick-rodgers/received_events",
+            "type": "User",
+            "site_admin": false
         },
-        "message": "'testing'",
-        "tree": {
-            "sha": "2b51d5e992d9bacda33d7fec15f4628d9a3841a2",
-            "url": "https://api.github.com/repos/pnp/action-sample-scanner/git/trees/2b51d5e992d9bacda33d7fec15f4628d9a3841a2"
-        },
-        "url": "https://api.github.com/repos/pnp/action-sample-scanner/git/commits/c317f3ba81c3ac75047452a5a56b219255dc3fda",
-        "comment_count": 0,
-        "verification": {
-            "verified": false,
-            "reason": "unsigned",
-            "signature": null,
-            "payload": null
-        }
-    },
-    "url": "https://api.github.com/repos/pnp/action-sample-scanner/commits/c317f3ba81c3ac75047452a5a56b219255dc3fda",
-    "html_url": "https://github.com/pnp/action-sample-scanner/commit/c317f3ba81c3ac75047452a5a56b219255dc3fda",
-    "comments_url": "https://api.github.com/repos/pnp/action-sample-scanner/commits/c317f3ba81c3ac75047452a5a56b219255dc3fda/comments",
-    "author": {
-        "login": "patrick-rodgers",
-        "id": 13154702,
-        "node_id": "MDQ6VXNlcjEzMTU0NzAy",
-        "avatar_url": "https://avatars.githubusercontent.com/u/13154702?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/patrick-rodgers",
-        "html_url": "https://github.com/patrick-rodgers",
-        "followers_url": "https://api.github.com/users/patrick-rodgers/followers",
-        "following_url": "https://api.github.com/users/patrick-rodgers/following{/other_user}",
-        "gists_url": "https://api.github.com/users/patrick-rodgers/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/patrick-rodgers/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/patrick-rodgers/subscriptions",
-        "organizations_url": "https://api.github.com/users/patrick-rodgers/orgs",
-        "repos_url": "https://api.github.com/users/patrick-rodgers/repos",
-        "events_url": "https://api.github.com/users/patrick-rodgers/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/patrick-rodgers/received_events",
-        "type": "User",
-        "site_admin": false
-    },
-    "committer": {
-        "login": "patrick-rodgers",
-        "id": 13154702,
-        "node_id": "MDQ6VXNlcjEzMTU0NzAy",
-        "avatar_url": "https://avatars.githubusercontent.com/u/13154702?v=4",
-        "gravatar_id": "",
-        "url": "https://api.github.com/users/patrick-rodgers",
-        "html_url": "https://github.com/patrick-rodgers",
-        "followers_url": "https://api.github.com/users/patrick-rodgers/followers",
-        "following_url": "https://api.github.com/users/patrick-rodgers/following{/other_user}",
-        "gists_url": "https://api.github.com/users/patrick-rodgers/gists{/gist_id}",
-        "starred_url": "https://api.github.com/users/patrick-rodgers/starred{/owner}{/repo}",
-        "subscriptions_url": "https://api.github.com/users/patrick-rodgers/subscriptions",
-        "organizations_url": "https://api.github.com/users/patrick-rodgers/orgs",
-        "repos_url": "https://api.github.com/users/patrick-rodgers/repos",
-        "events_url": "https://api.github.com/users/patrick-rodgers/events{/privacy}",
-        "received_events_url": "https://api.github.com/users/patrick-rodgers/received_events",
-        "type": "User",
-        "site_admin": false
-    },
-    "parents": [
-        {
-            "sha": "77ac2cc5324581e0a00c5daf0c5be5e51c05db46",
-            "url": "https://api.github.com/repos/pnp/action-sample-scanner/commits/77ac2cc5324581e0a00c5daf0c5be5e51c05db46",
-            "html_url": "https://github.com/pnp/action-sample-scanner/commit/77ac2cc5324581e0a00c5daf0c5be5e51c05db46"
-        }
-    ],
-    "stats": {
-        "total": 12,
-        "additions": 6,
-        "deletions": 6
-    },
-    "files": [
-        {
-            "sha": "2f5312bf350406f07aec849f91ed56182990ca56",
-            "filename": "dist/index.js",
-            "status": "modified",
-            "additions": 2,
-            "deletions": 2,
-            "changes": 4,
-            "blob_url": "https://github.com/pnp/action-sample-scanner/blob/c317f3ba81c3ac75047452a5a56b219255dc3fda/dist%2Findex.js",
-            "raw_url": "https://github.com/pnp/action-sample-scanner/raw/c317f3ba81c3ac75047452a5a56b219255dc3fda/dist%2Findex.js",
-            "contents_url": "https://api.github.com/repos/pnp/action-sample-scanner/contents/dist%2Findex.js?ref=c317f3ba81c3ac75047452a5a56b219255dc3fda",
-            "patch": "@@ -9779,14 +9779,14 @@ async function last_modified_execute(_path, _packageFile) {\n     const { repo, ref } = github.context;\n     const value = await octokit.rest.repos.getCommit({\n         ...repo,\n-        baseUrl: \"testing/samples/sample1/\",\n         ref,\n+        path: \"testing/samples/sample1/\",\n     });\n     console.log(JSON.stringify(value.data));\n     const value2 = await octokit.rest.repos.getCommit({\n         ...repo,\n-        baseUrl: \"testing/samples/sample2/\",\n         ref,\n+        path: \"testing/samples/sample2/\",\n     });\n     console.log(JSON.stringify(value2.data));\n     return \"testing\";"
-        },
-        {
-            "sha": "3ed8c531b794133d2443fb59fc74f61957230144",
-            "filename": "dist/index.js.map",
-            "status": "modified",
-            "additions": 1,
-            "deletions": 1,
-            "changes": 2,
-            "blob_url": "https://github.com/pnp/action-sample-scanner/blob/c317f3ba81c3ac75047452a5a56b219255dc3fda/dist%2Findex.js.map",
-            "raw_url": "https://github.com/pnp/action-sample-scanner/raw/c317f3ba81c3ac75047452a5a56b219255dc3fda/dist%2Findex.js.map",
-            "contents_url": "https://api.github.com/repos/pnp/action-sample-scanner/contents/dist%2Findex.js.map?ref=c317f3ba81c3ac75047452a5a56b219255dc3fda"
-        },
-        {
-            "sha": "6b11a7f96450b7c26d2c641cea1aec08f0c8c482",
-            "filename": "src/rules/last-modified.ts",
-            "status": "modified",
-            "additions": 3,
-            "deletions": 3,
-            "changes": 6,
-            "blob_url": "https://github.com/pnp/action-sample-scanner/blob/c317f3ba81c3ac75047452a5a56b219255dc3fda/src%2Frules%2Flast-modified.ts",
-            "raw_url": "https://github.com/pnp/action-sample-scanner/raw/c317f3ba81c3ac75047452a5a56b219255dc3fda/src%2Frules%2Flast-modified.ts",
-            "contents_url": "https://api.github.com/repos/pnp/action-sample-scanner/contents/src%2Frules%2Flast-modified.ts?ref=c317f3ba81c3ac75047452a5a56b219255dc3fda",
-            "patch": "@@ -9,20 +9,20 @@ export async function execute(_path: string, _packageFile: IPackageFile): Promis\n \n     const octokit = get();\n \n-    const { repo, ref} = context;\n+    const { repo, ref } = context;\n \n     const value = await octokit.rest.repos.getCommit({\n         ...repo,\n-        baseUrl: \"testing/samples/sample1/\",\n         ref,\n+        path: \"testing/samples/sample1/\",\n     });\n \n     console.log(JSON.stringify(value.data));\n \n     const value2 = await octokit.rest.repos.getCommit({\n         ...repo,\n-        baseUrl: \"testing/samples/sample2/\",\n         ref,\n+        path: \"testing/samples/sample2/\",\n     });\n \n     console.log(JSON.stringify(value2.data));"
-        }
-    ]
-}
+        "parents": [
+            {
+                "sha": "1a8603eb3e84b100ad9ae4efbd955cdd5b4c59e6",
+                "url": "https://api.github.com/repos/pnp/action-sample-scanner/commits/1a8603eb3e84b100ad9ae4efbd955cdd5b4c59e6",
+                "html_url": "https://github.com/pnp/action-sample-scanner/commit/1a8603eb3e84b100ad9ae4efbd955cdd5b4c59e6"
+            }
+        ]
+    }
+]

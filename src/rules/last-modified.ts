@@ -5,7 +5,7 @@ import { context } from "@actions/github";
 export const name = "Last Modified";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function execute(_path: string, _packageFile: IPackageFile): Promise<string> {
+export async function execute(path: string, _packageFile: IPackageFile): Promise<string> {
 
     const octokit = get();
 
@@ -14,20 +14,13 @@ export async function execute(_path: string, _packageFile: IPackageFile): Promis
     const value = await octokit.rest.repos.listCommits({
         ...repo,
         ref,
-        path: "testing/samples/sample1/",
+        path,
         per_page: 1,
     });
 
-    console.log(JSON.stringify(value.data));
-
-    const value2 = await octokit.rest.repos.listCommits({
-        ...repo,
-        ref,
-        path: "testing/samples/sample2/",
-        per_page: 1,
-    });
-
-    console.log(JSON.stringify(value2.data));
-
-    return "testing";
+    if (value && value.data && Array.isArray(value.data) && value.data.length > 0) {
+        return value.data[0].commit?.author?.date || "none";
+    } else {
+        return "none";
+    }    
 }

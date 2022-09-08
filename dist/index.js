@@ -9774,24 +9774,22 @@ function get() {
 
 const last_modified_name = "Last Modified";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-async function last_modified_execute(_path, _packageFile) {
+async function last_modified_execute(path, _packageFile) {
+    var _a, _b;
     const octokit = get();
     const { repo, ref } = github.context;
     const value = await octokit.rest.repos.listCommits({
         ...repo,
         ref,
-        path: "testing/samples/sample1/",
+        path,
         per_page: 1,
     });
-    console.log(JSON.stringify(value.data));
-    const value2 = await octokit.rest.repos.listCommits({
-        ...repo,
-        ref,
-        path: "testing/samples/sample2/",
-        per_page: 1,
-    });
-    console.log(JSON.stringify(value2.data));
-    return "testing";
+    if (value && value.data && Array.isArray(value.data) && value.data.length > 0) {
+        return ((_b = (_a = value.data[0].commit) === null || _a === void 0 ? void 0 : _a.author) === null || _b === void 0 ? void 0 : _b.date) || "none";
+    }
+    else {
+        return "none";
+    }
 }
 
 ;// CONCATENATED MODULE: ./src/rules/index.ts
