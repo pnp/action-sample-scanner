@@ -1,7 +1,6 @@
 {
   "name": "@pnp/action-sample-scanner",
   "version": "0.0.1",
-  "private": true,
   "description": "TypeScript template action",
   "main": "dist/main.js",
   "scripts": {
