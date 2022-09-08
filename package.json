@@ -19,7 +19,7 @@
     "node",
     "scanner"
   ],
-  "author": "",
+  "author": "Patrick Rodgers",
   "license": "MIT",
   "dependencies": {
     "@actions/core": "^1.9.1",
