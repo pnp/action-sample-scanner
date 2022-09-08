@@ -9,18 +9,11 @@ import rules from "./rules";
 export async function runner(scanPaths: string[]) {
 
     // const rules = await loadRules();
-    // the summary rows will 
+
+    // the summary rows will contain our output
     const summaryRows = [];
 
     debug(`Loaded ${rules.length} rules`);
-
-    // columns
-    // 0: name
-    // 1: path
-    // 2: last modified
-    // 3: rule[0]
-    // 4: rule[1]
-    // 5: rule[n]
 
     // add headers
     summaryRows.push([{
@@ -60,7 +53,13 @@ export async function runner(scanPaths: string[]) {
 
                 try {
 
-                    scanSummaryRow.push(await rule[1](scanPath, packageFile));
+                    let result = await rule[1](scanPath, packageFile);
+
+                    if (typeof result === "undefined" || result === null) {
+                        result = "";
+                    }
+
+                    scanSummaryRow.push(result);
 
                 } catch (e) {
 
@@ -73,7 +72,6 @@ export async function runner(scanPaths: string[]) {
 
             scanSummaryRow.push("package.json not found", scanPath);
             for (let r = 0; r < rules.length; r++) {
-                // we have to fill in empty rows
                 scanSummaryRow.push("***");
             }
         }

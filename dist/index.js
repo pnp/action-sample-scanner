@@ -9751,15 +9751,10 @@ var github = __nccwpck_require__(5438);
 
 let octokit = null;
 function init(token) {
+    if (typeof token === "undefined" || token.length < 1) {
+        throw Error("You must supply a valid token in the inputs for this action.");
+    }
     octokit = (0,github.getOctokit)(token);
-    // from github import Github
-    // g = Github()
-    // repo = g.get_repo("datasets/population")
-    // print(repo.name)
-    // commits = repo.get_commits(path='data/population.csv')
-    // print(commits.totalCount)
-    // if commits.totalCount:
-    //     print(commits[0].commit.committer.date)
     return octokit;
 }
 function get() {
@@ -9795,7 +9790,15 @@ async function last_modified_execute(path, _packageFile) {
 ;// CONCATENATED MODULE: ./src/rules/spfx-version.ts
 const spfx_version_name = "SPFx Version";
 async function spfx_version_execute(_path, packageFile) {
-    return packageFile.dependencies["@microsoft/sp-core-library"];
+    if (Reflect.has(packageFile.dependencies, "@microsoft/sp-core-library")) {
+        return Reflect.get(packageFile.dependencies, "@microsoft/sp-core-library");
+    }
+    else if (Reflect.has(packageFile.dependencies, "@microsoft/sp-client-base")) {
+        return Reflect.get(packageFile.dependencies, "@microsoft/sp-client-base");
+    }
+    else {
+        return "not found";
+    }
 }
 
 ;// CONCATENATED MODULE: ./src/rules/index.ts
@@ -9817,16 +9820,9 @@ async function spfx_version_execute(_path, packageFile) {
 
 async function runner(scanPaths) {
     // const rules = await loadRules();
-    // the summary rows will 
+    // the summary rows will contain our output
     const summaryRows = [];
     debug(`Loaded ${rules.length} rules`);
-    // columns
-    // 0: name
-    // 1: path
-    // 2: last modified
-    // 3: rule[0]
-    // 4: rule[1]
-    // 5: rule[n]
     // add headers
     summaryRows.push([{
             data: "Name",
@@ -9853,7 +9849,11 @@ async function runner(scanPaths) {
             for (let r = 0; r < rules.length; r++) {
                 const rule = rules[r];
                 try {
-                    scanSummaryRow.push(await rule[1](scanPath, packageFile));
+                    let result = await rule[1](scanPath, packageFile);
+                    if (typeof result === "undefined" || result === null) {
+                        result = "";
+                    }
+                    scanSummaryRow.push(result);
                 }
                 catch (e) {
                     scanSummaryRow.push("error");
@@ -9864,7 +9864,6 @@ async function runner(scanPaths) {
         else {
             scanSummaryRow.push("package.json not found", scanPath);
             for (let r = 0; r < rules.length; r++) {
-                // we have to fill in empty rows
                 scanSummaryRow.push("***");
             }
         }
