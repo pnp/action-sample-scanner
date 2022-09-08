@@ -1,6 +1,6 @@
 import { readJSON } from "./utils";
 import { summary } from "@actions/core";
-import { debug } from "./logging";
+import { debug, log } from "./logging";
 import { join } from "path";
 import { existsSync } from "fs";
 import { IPackageFile } from "./types";
@@ -80,6 +80,10 @@ export async function runner(scanPaths: string[]) {
 
         summaryRows.push(scanSummaryRow);
     }
+
+    debug(JSON.stringify(summaryRows));
+
+    log("Adding Table");
 
     // add a table to the summary
     summary.addTable(summaryRows);
