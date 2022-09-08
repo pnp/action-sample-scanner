@@ -11,18 +11,20 @@ export async function execute(_path: string, _packageFile: IPackageFile): Promis
 
     const { repo, ref } = context;
 
-    const value = await octokit.rest.repos.getCommit({
+    const value = await octokit.rest.repos.listCommits({
         ...repo,
         ref,
         path: "testing/samples/sample1/",
+        per_page: 1,
     });
 
     console.log(JSON.stringify(value.data));
 
-    const value2 = await octokit.rest.repos.getCommit({
+    const value2 = await octokit.rest.repos.listCommits({
         ...repo,
         ref,
         path: "testing/samples/sample2/",
+        per_page: 1,
     });
 
     console.log(JSON.stringify(value2.data));
