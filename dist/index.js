@@ -9792,12 +9792,20 @@ async function last_modified_execute(path, _packageFile) {
     }
 }
 
+;// CONCATENATED MODULE: ./src/rules/spfx-version.ts
+const spfx_version_name = "SPFx Version";
+async function spfx_version_execute(_path, packageFile) {
+    return packageFile.dependencies["@microsoft/sp-core-library"];
+}
+
 ;// CONCATENATED MODULE: ./src/rules/index.ts
+
 
 
 /* harmony default export */ const rules = ([
     [package_version_name, execute],
-    [last_modified_name, last_modified_execute]
+    [last_modified_name, last_modified_execute],
+    [spfx_version_name, spfx_version_execute],
 ]);
 
 ;// CONCATENATED MODULE: ./src/rule-runner.ts
