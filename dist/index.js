@@ -9771,11 +9771,14 @@ function get() {
 
 ;// CONCATENATED MODULE: ./src/rules/last-modified.ts
 
+
 const last_modified_name = "Last Modified";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function last_modified_execute(_path, _packageFile) {
     const octokit = get();
-    const value = await octokit.rest.repos.get();
+    const value = await octokit.rest.repos.get({
+        ...github.context.repo,
+    });
     console.log(JSON.stringify(value.data));
     return "testing";
 }
