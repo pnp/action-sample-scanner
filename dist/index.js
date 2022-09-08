@@ -9862,7 +9862,11 @@ async function runner(scanPaths) {
             }
         }
         else {
-            scanSummaryRow.push("no package found", scanPath);
+            scanSummaryRow.push("package.json not found", scanPath);
+            for (let r = 0; r < rules.length; r++) {
+                // we have to fill in empty rows
+                scanSummaryRow.push("");
+            }
         }
         summaryRows.push(scanSummaryRow);
     }
