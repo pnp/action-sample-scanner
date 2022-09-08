@@ -9845,7 +9845,7 @@ async function runner(scanPaths) {
         if ((0,external_fs_.existsSync)(packagePath)) {
             // we load the package file once so every rule doesn't need to as it will likely be used a lot
             const packageFile = await readJSON(packagePath);
-            scanSummaryRow.push(packageFile.name, scanPath);
+            scanSummaryRow.push(packageFile.name, core.summary.addLink(scanPath, scanPath));
             for (let r = 0; r < rules.length; r++) {
                 const rule = rules[r];
                 try {
