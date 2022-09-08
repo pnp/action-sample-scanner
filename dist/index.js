@@ -9738,6 +9738,9 @@ function getSubDirPaths(root) {
 function getDirFilePaths(root) {
     return readdirSync(root).map(d => join(root, d)).filter(dirName => !lstatSync(dirName).isDirectory());
 }
+function repoLinkFromScanPath(path) {
+    return `../../tree/main/${path}`;
+}
 
 ;// CONCATENATED MODULE: ./src/rules/package-version.ts
 const package_version_name = "Version";
@@ -9838,6 +9841,7 @@ async function runner(scanPaths) {
         }))]);
     for (let i = 0; i < scanPaths.length; i++) {
         const scanPath = scanPaths[i];
+        const repoLink = repoLinkFromScanPath(scanPath);
         debug(`Processing scanning path: '${scanPath}'`);
         const scanSummaryRow = [];
         const packagePath = (0,external_path_.join)(scanPath, "package.json");
@@ -9845,7 +9849,7 @@ async function runner(scanPaths) {
         if ((0,external_fs_.existsSync)(packagePath)) {
             // we load the package file once so every rule doesn't need to as it will likely be used a lot
             const packageFile = await readJSON(packagePath);
-            scanSummaryRow.push(packageFile.name, `<a href="../../tree/main/${scanPath}">${scanPath}</a>`);
+            scanSummaryRow.push(packageFile.name, `<a href="${repoLink}">${scanPath}</a>`);
             for (let r = 0; r < rules.length; r++) {
                 const rule = rules[r];
                 try {
@@ -9862,7 +9866,7 @@ async function runner(scanPaths) {
             }
         }
         else {
-            scanSummaryRow.push("package.json not found", scanPath);
+            scanSummaryRow.push("package.json not found", `<a href="${repoLink}">${scanPath}</a>`);
             for (let r = 0; r < rules.length; r++) {
                 scanSummaryRow.push("***");
             }

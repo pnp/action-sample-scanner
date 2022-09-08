@@ -61,3 +61,8 @@ export function getDirFilePaths(root: string): string[] {
 
     return readdirSync(root).map(d => join(root, d)).filter(dirName => !lstatSync(dirName).isDirectory());
 }
+
+export function repoLinkFromScanPath(path: string): string {
+    return `../../tree/main/${path}`;
+}
+

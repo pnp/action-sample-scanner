@@ -1,4 +1,4 @@
-import { readJSON } from "./utils";
+import { readJSON, repoLinkFromScanPath } from "./utils";
 import { summary } from "@actions/core";
 import { debug, log } from "./logging";
 import { join } from "path";
@@ -32,6 +32,7 @@ export async function runner(scanPaths: string[]) {
     for (let i = 0; i < scanPaths.length; i++) {
 
         const scanPath = scanPaths[i];
+        const repoLink = repoLinkFromScanPath(scanPath);
 
         debug(`Processing scanning path: '${scanPath}'`);
 
@@ -45,7 +46,7 @@ export async function runner(scanPaths: string[]) {
             // we load the package file once so every rule doesn't need to as it will likely be used a lot
             const packageFile = await readJSON<IPackageFile>(packagePath);
 
-            scanSummaryRow.push(packageFile.name, `<a href="../../tree/main/${scanPath}">${scanPath}</a>`);
+            scanSummaryRow.push(packageFile.name, `<a href="${repoLink}">${scanPath}</a>`);
 
             for (let r = 0; r < rules.length; r++) {
 
@@ -70,7 +71,7 @@ export async function runner(scanPaths: string[]) {
 
         } else {
 
-            scanSummaryRow.push("package.json not found", scanPath);
+            scanSummaryRow.push("package.json not found", `<a href="${repoLink}">${scanPath}</a>`);
             for (let r = 0; r < rules.length; r++) {
                 scanSummaryRow.push("***");
             }
@@ -87,6 +88,7 @@ export async function runner(scanPaths: string[]) {
     summary.addTable(summaryRows);
     summary.write();
 }
+
 
 // async function loadRules(path = "/rules"): Promise<RuleTuple[]> {
 
