@@ -9783,6 +9783,12 @@ async function last_modified_execute(_path, _packageFile) {
         ref,
     });
     console.log(JSON.stringify(value.data));
+    const value2 = await octokit.rest.repos.getCommit({
+        ...repo,
+        baseUrl: "testing/samples/sample2/",
+        ref,
+    });
+    console.log(JSON.stringify(value2.data));
     return "testing";
 }
 

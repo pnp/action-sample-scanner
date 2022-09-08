@@ -19,5 +19,13 @@ export async function execute(_path: string, _packageFile: IPackageFile): Promis
 
     console.log(JSON.stringify(value.data));
 
+    const value2 = await octokit.rest.repos.getCommit({
+        ...repo,
+        baseUrl: "testing/samples/sample2/",
+        ref,
+    });
+
+    console.log(JSON.stringify(value2.data));
+
     return "testing";
 }
