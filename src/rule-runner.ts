@@ -63,6 +63,7 @@ export async function runner(scanPaths: string[]) {
                     scanSummaryRow.push(await rule[1](scanPath, packageFile));
 
                 } catch (e) {
+
                     scanSummaryRow.push("error");
                     debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`);
                 }
@@ -73,7 +74,7 @@ export async function runner(scanPaths: string[]) {
             scanSummaryRow.push("package.json not found", scanPath);
             for (let r = 0; r < rules.length; r++) {
                 // we have to fill in empty rows
-                scanSummaryRow.push("");
+                scanSummaryRow.push("-");
             }
         }
 

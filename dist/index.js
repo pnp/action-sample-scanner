@@ -9865,7 +9865,7 @@ async function runner(scanPaths) {
             scanSummaryRow.push("package.json not found", scanPath);
             for (let r = 0; r < rules.length; r++) {
                 // we have to fill in empty rows
-                scanSummaryRow.push("");
+                scanSummaryRow.push("-");
             }
         }
         summaryRows.push(scanSummaryRow);
