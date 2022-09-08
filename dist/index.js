@@ -9843,45 +9843,30 @@ async function runner(scanPaths) {
         const scanPath = scanPaths[i];
         debug(`Processing scanning path: '${scanPath}'`);
         const scanSummaryRow = [];
-        // we load the package file once so every rule doesn't need to as it will likely be used a lot
-        const packageFile = await readJSON((0,external_path_.join)(scanPath, "package.json"));
-        scanSummaryRow.push(packageFile.name, scanPath);
-        for (let r = 0; r < rules.length; r++) {
-            const rule = rules[r];
-            try {
-                scanSummaryRow.push(await rule[1](scanPath, packageFile));
+        try {
+            // we load the package file once so every rule doesn't need to as it will likely be used a lot
+            const packageFile = await readJSON((0,external_path_.join)(scanPath, "package.json"));
+            scanSummaryRow.push(packageFile.name, scanPath);
+            for (let r = 0; r < rules.length; r++) {
+                const rule = rules[r];
+                try {
+                    scanSummaryRow.push(await rule[1](scanPath, packageFile));
+                }
+                catch (e) {
+                    scanSummaryRow.push("error");
+                    debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`);
+                }
             }
-            catch (e) {
-                scanSummaryRow.push("error");
-                debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`);
-            }
+        }
+        catch (e) {
+            scanSummaryRow.push("error");
+            debug(`Error for scan on ${scanPath}: ${e}`);
         }
         summaryRows.push(scanSummaryRow);
     }
     // add a table to the summary
     core.summary.addTable(summaryRows);
     core.summary.write();
-    // export interface SummaryTableCell {
-    //     /**
-    //      * Cell content
-    //      */
-    //     data: string;
-    //     /**
-    //      * Render cell as header
-    //      * (optional) default: false
-    //      */
-    //     header?: boolean;
-    //     /**
-    //      * Number of columns the cell extends
-    //      * (optional) default: '1'
-    //      */
-    //     colspan?: string;
-    //     /**
-    //      * Number of rows the cell extends
-    //      * (optional) default: '1'
-    //      */
-    //     rowspan?: string;
-    // }
 }
 // async function loadRules(path = "/rules"): Promise<RuleTuple[]> {
 //     const rules = [];

@@ -43,23 +43,31 @@ export async function runner(scanPaths: string[]) {
 
         const scanSummaryRow = [];
 
-        // we load the package file once so every rule doesn't need to as it will likely be used a lot
-        const packageFile = await readJSON<IPackageFile>(join(scanPath, "package.json"));
+        try {
 
-        scanSummaryRow.push(packageFile.name, scanPath);
+            // we load the package file once so every rule doesn't need to as it will likely be used a lot
+            const packageFile = await readJSON<IPackageFile>(join(scanPath, "package.json"));
 
-        for (let r = 0; r < rules.length; r++) {
+            scanSummaryRow.push(packageFile.name, scanPath);
 
-            const rule = rules[r];
+            for (let r = 0; r < rules.length; r++) {
 
-            try {
+                const rule = rules[r];
 
-                scanSummaryRow.push(await rule[1](scanPath, packageFile));
+                try {
 
-            } catch (e) {
-                scanSummaryRow.push("error");
-                debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`)
+                    scanSummaryRow.push(await rule[1](scanPath, packageFile));
+
+                } catch (e) {
+                    scanSummaryRow.push("error");
+                    debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`);
+                }
             }
+
+        } catch (e) {
+
+            scanSummaryRow.push("error");
+            debug(`Error for scan on ${scanPath}: ${e}`);
         }
 
         summaryRows.push(scanSummaryRow);
@@ -68,28 +76,6 @@ export async function runner(scanPaths: string[]) {
     // add a table to the summary
     summary.addTable(summaryRows);
     summary.write();
-
-    // export interface SummaryTableCell {
-    //     /**
-    //      * Cell content
-    //      */
-    //     data: string;
-    //     /**
-    //      * Render cell as header
-    //      * (optional) default: false
-    //      */
-    //     header?: boolean;
-    //     /**
-    //      * Number of columns the cell extends
-    //      * (optional) default: '1'
-    //      */
-    //     colspan?: string;
-    //     /**
-    //      * Number of rows the cell extends
-    //      * (optional) default: '1'
-    //      */
-    //     rowspan?: string;
-    // }
 }
 
 // async function loadRules(path = "/rules"): Promise<RuleTuple[]> {
