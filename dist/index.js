@@ -2885,7 +2885,11 @@ async function execute(_path, packageFile) {
 
 ;// CONCATENATED MODULE: ./src/rules/index.ts
 
-/* harmony default export */ const rules = ([[package_version_name, execute]]);
+
+/* harmony default export */ const rules = ([
+    [package_version_name, execute],
+    [package_version_name, execute]
+]);
 
 ;// CONCATENATED MODULE: ./src/rule-runner.ts
 
