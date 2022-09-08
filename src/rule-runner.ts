@@ -26,10 +26,6 @@ export async function runner(scanPaths: string[]) {
         header: true,
     },
     {
-        data: "Version",
-        header: true,
-    },
-    {
         data: "Path",
         header: true,
     },
@@ -48,7 +44,7 @@ export async function runner(scanPaths: string[]) {
 
         const packageFile = await readJSON<IPackageFile>(join(scanPath, "package.json"));
 
-        scanSummaryRow.push(packageFile.name, packageFile.version, scanPath);
+        scanSummaryRow.push(packageFile.name, scanPath);
 
         for (let r = 0; r < rules.length; r++) {
 

@@ -2910,10 +2910,6 @@ async function runner(scanPaths) {
             header: true,
         },
         {
-            data: "Version",
-            header: true,
-        },
-        {
             data: "Path",
             header: true,
         },
@@ -2926,7 +2922,7 @@ async function runner(scanPaths) {
         debug(`Processing scanning path: '${scanPath}'`);
         const scanSummaryRow = [];
         const packageFile = await readJSON((0,external_path_.join)(scanPath, "package.json"));
-        scanSummaryRow.push(packageFile.name, packageFile.version, scanPath);
+        scanSummaryRow.push(packageFile.name, scanPath);
         for (let r = 0; r < rules.length; r++) {
             const rule = rules[r];
             try {
@@ -2999,7 +2995,7 @@ async function runner(scanPaths) {
         if (error instanceof Error) {
             (0,core.setFailed)(error.message);
         }
-        else if (typeof error === "string") {
+        else {
             (0,core.setFailed)(error);
         }
     }

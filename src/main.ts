@@ -4,6 +4,7 @@ import { loadInputs, getSubDirPaths } from "./utils";
 import { runner } from "./rule-runner";
 
 (async function (): Promise<void> {
+
     try {
 
         log("Starting action");
@@ -20,7 +21,7 @@ import { runner } from "./rule-runner";
             paths.push(...getSubDirPaths(scanRoot));
 
             return paths;
-        
+
         }, []);
 
         await runner(scanningPaths);
@@ -33,7 +34,7 @@ import { runner } from "./rule-runner";
 
             setFailed(error.message);
 
-        } else if (typeof error === "string") {
+        } else {
 
             setFailed(error);
         }
