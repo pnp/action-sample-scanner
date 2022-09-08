@@ -45,7 +45,7 @@ export async function runner(scanPaths: string[]) {
             // we load the package file once so every rule doesn't need to as it will likely be used a lot
             const packageFile = await readJSON<IPackageFile>(packagePath);
 
-            scanSummaryRow.push(packageFile.name, `<a href="../../${scanPath}">${scanPath}</a>`);
+            scanSummaryRow.push(packageFile.name, `<a href="../../tree/main/${scanPath}">${scanPath}</a>`);
 
             for (let r = 0; r < rules.length; r++) {
 
