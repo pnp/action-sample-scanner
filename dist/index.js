@@ -9814,6 +9814,7 @@ async function spfx_version_execute(_path, packageFile) {
 
 
 
+
 async function runner(scanPaths) {
     // const rules = await loadRules();
     // the summary rows will 
@@ -9843,9 +9844,11 @@ async function runner(scanPaths) {
         const scanPath = scanPaths[i];
         debug(`Processing scanning path: '${scanPath}'`);
         const scanSummaryRow = [];
-        try {
+        const packagePath = (0,external_path_.join)(scanPath, "package.json");
+        // if no package.json exists we just do nothing and report that
+        if ((0,external_fs_.existsSync)(packagePath)) {
             // we load the package file once so every rule doesn't need to as it will likely be used a lot
-            const packageFile = await readJSON((0,external_path_.join)(scanPath, "package.json"));
+            const packageFile = await readJSON(packagePath);
             scanSummaryRow.push(packageFile.name, scanPath);
             for (let r = 0; r < rules.length; r++) {
                 const rule = rules[r];
@@ -9858,9 +9861,8 @@ async function runner(scanPaths) {
                 }
             }
         }
-        catch (e) {
-            scanSummaryRow.push("error");
-            debug(`Error for scan on ${scanPath}: ${e}`);
+        else {
+            scanSummaryRow.push("no package found", scanPath);
         }
         summaryRows.push(scanSummaryRow);
     }

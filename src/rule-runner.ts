@@ -2,6 +2,7 @@ import { readJSON } from "./utils";
 import { summary } from "@actions/core";
 import { debug } from "./logging";
 import { join } from "path";
+import { existsSync } from "fs";
 import { IPackageFile } from "./types";
 import rules from "./rules";
 
@@ -43,10 +44,13 @@ export async function runner(scanPaths: string[]) {
 
         const scanSummaryRow = [];
 
-        try {
+        const packagePath = join(scanPath, "package.json");
+
+        // if no package.json exists we just do nothing and report that
+        if (existsSync(packagePath)) {
 
             // we load the package file once so every rule doesn't need to as it will likely be used a lot
-            const packageFile = await readJSON<IPackageFile>(join(scanPath, "package.json"));
+            const packageFile = await readJSON<IPackageFile>(packagePath);
 
             scanSummaryRow.push(packageFile.name, scanPath);
 
@@ -64,10 +68,9 @@ export async function runner(scanPaths: string[]) {
                 }
             }
 
-        } catch (e) {
+        } else {
 
-            scanSummaryRow.push("error");
-            debug(`Error for scan on ${scanPath}: ${e}`);
+            scanSummaryRow.push("no package found", scanPath);
         }
 
         summaryRows.push(scanSummaryRow);
