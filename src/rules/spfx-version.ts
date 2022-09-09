@@ -4,7 +4,7 @@ import { not_found } from "../strings";
 
 export const name = "SPFx Version";
 
-export async function execute(_path: string, packageFile: IPackageFile | null): Promise<string> {
+export async function execute(_path: string, packageFile: IPackageFile | undefined | null): Promise<string> {
 
     if (isPackageFile(packageFile) && Reflect.has(packageFile, "dependencies")) {
         

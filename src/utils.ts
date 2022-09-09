@@ -4,7 +4,7 @@ import { join } from "path";
 import { debug } from "./logging";
 import { IPackageFile } from "./types";
 
-export function readJSON<T>(path: string): Promise<T> {
+export function readJSONFile<T>(path: string): Promise<T> {
 
     return new Promise((resolve, reject) => {
 
@@ -68,6 +68,6 @@ export function repoLinkFromScanPath(path: string): string {
 }
 
 export function isPackageFile(packageFile: IPackageFile | null | undefined): packageFile is IPackageFile {
-    // TODO:: some other validation on package file
+    // TODO::? some other validation on package file
     return typeof packageFile !== "undefined" && packageFile !== null
 }

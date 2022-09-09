@@ -5,7 +5,7 @@ import { not_found } from "../strings";
 export const name = "Last Modified";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function execute(path: string, _packageFile: IPackageFile | null): Promise<string> {
+export async function execute(path: string, _packageFile: IPackageFile | undefined | null): Promise<string> {
 
     const commitInfo = await getLastCommitByScanPath(path);
 

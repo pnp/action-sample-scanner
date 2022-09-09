@@ -9699,7 +9699,7 @@ var external_path_ = __nccwpck_require__(1017);
 
 
 
-function readJSON(path) {
+function readJSONFile(path) {
     return new Promise((resolve, reject) => {
         (0,external_fs_.readFile)(path, { encoding: "utf-8" }, (err, data) => {
             try {
@@ -9742,7 +9742,7 @@ function repoLinkFromScanPath(path) {
     return `../../tree/main/${path}`;
 }
 function isPackageFile(packageFile) {
-    // TODO:: some other validation on package file
+    // TODO::? some other validation on package file
     return typeof packageFile !== "undefined" && packageFile !== null;
 }
 
@@ -9783,13 +9783,16 @@ function get() {
     return octokit;
 }
 
+;// CONCATENATED MODULE: external "console"
+const external_console_namespaceObject = require("console");
 ;// CONCATENATED MODULE: ./src/commits.ts
 
 
-const commits = new Map();
+
+const lastCommitsByScanPathCache = new Map();
 async function getLastCommitByScanPath(path) {
-    if (commits.has(path)) {
-        return commits.get(path);
+    if (lastCommitsByScanPathCache.has(path)) {
+        return lastCommitsByScanPathCache.get(path);
     }
     const octokit = get();
     const { repo, ref } = github.context;
@@ -9800,9 +9803,10 @@ async function getLastCommitByScanPath(path) {
         per_page: 1,
     });
     let commit = null;
-    if (Array.isArray(value.data) && value.data.length > 0) {
+    if (value && Array.isArray(value.data) && value.data.length > 0) {
         commit = value.data[0];
-        commits.set(path, commit);
+        (0,external_console_namespaceObject.debug)(`loaded last commit for ${path}: ${JSON.stringify(commit)}`);
+        lastCommitsByScanPathCache.set(path, commit);
     }
     return commit;
 }
@@ -9885,7 +9889,7 @@ async function runner(scanPaths) {
         const scanSummaryRow = [];
         const packagePath = (0,external_path_.join)(scanPath, "package.json");
         // we load the package file once so every rule doesn't need to as it will likely be used a lot
-        const packageFile = (0,external_fs_.existsSync)(packagePath) ? await readJSON(packagePath) : null;
+        const packageFile = (0,external_fs_.existsSync)(packagePath) ? await readJSONFile(packagePath) : null;
         scanSummaryRow.push((packageFile === null || packageFile === void 0 ? void 0 : packageFile.name) || package_json_not_found, `<a href="${repoLink}">${scanPath}</a>`);
         for (let r = 0; r < rules.length; r++) {
             const rule = rules[r];

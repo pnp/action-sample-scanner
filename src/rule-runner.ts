@@ -1,4 +1,4 @@
-import { readJSON, repoLinkFromScanPath } from "./utils";
+import { readJSONFile, repoLinkFromScanPath } from "./utils";
 import { summary } from "@actions/core";
 import { debug, log } from "./logging";
 import { join } from "path";
@@ -47,7 +47,7 @@ export async function runner(scanPaths: string[]) {
         const packagePath = join(scanPath, "package.json");
 
         // we load the package file once so every rule doesn't need to as it will likely be used a lot
-        const packageFile = existsSync(packagePath) ? await readJSON<IPackageFile>(packagePath) : null;
+        const packageFile = existsSync(packagePath) ? await readJSONFile<IPackageFile>(packagePath) : null;
 
         scanSummaryRow.push(packageFile?.name || package_json_not_found, `<a href="${repoLink}">${scanPath}</a>`);
 
