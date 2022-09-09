@@ -73,16 +73,13 @@ export async function runner(scanPaths: string[]) {
         }
 
         summaryRows.push(scanSummaryRow);
-
-
-        debug(JSON.stringify(summaryRows));
-
-        log("Adding Table");
-
-        // add a table to the summary
-        summary.addTable(summaryRows);
-        summary.write();
     }
+
+    log("Adding Table");
+
+    // add a table to the summary
+    summary.addTable(summaryRows);
+    summary.write();
 }
 
 // async function loadRules(path = "/rules"): Promise<RuleTuple[]> {

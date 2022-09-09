@@ -9885,12 +9885,11 @@ async function runner(scanPaths) {
             }
         }
         summaryRows.push(scanSummaryRow);
-        debug(JSON.stringify(summaryRows));
-        log("Adding Table");
-        // add a table to the summary
-        core.summary.addTable(summaryRows);
-        core.summary.write();
     }
+    log("Adding Table");
+    // add a table to the summary
+    core.summary.addTable(summaryRows);
+    core.summary.write();
 }
 // async function loadRules(path = "/rules"): Promise<RuleTuple[]> {
 //     const rules = [];
