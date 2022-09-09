@@ -9786,14 +9786,14 @@ function get() {
 ;// CONCATENATED MODULE: ./src/commits.ts
 
 
-const commits_octokit = get();
 const commits = new Map();
 async function getLastCommitByScanPath(path) {
     if (commits.has(path)) {
         return commits.get(path);
     }
+    const octokit = get();
     const { repo, ref } = github.context;
-    const value = await commits_octokit.rest.repos.listCommits({
+    const value = await octokit.rest.repos.listCommits({
         ...repo,
         ref,
         path,

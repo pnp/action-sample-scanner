@@ -1,17 +1,18 @@
-import { get } from "./octo-kit";
+import { get, OctoKitType } from "./octo-kit";
 import { context } from "@actions/github";
 import { GetResponseDataTypeFromEndpointMethod } from "@octokit/types"
 
-const octokit = get();
 const commits = new Map<string, ICommitInfo>();
 
-export type ICommitInfo = GetResponseDataTypeFromEndpointMethod<typeof octokit.rest.repos.listCommits>[0];
+export type ICommitInfo = GetResponseDataTypeFromEndpointMethod<OctoKitType["rest"]["repos"]["listCommits"]>[0];
 
 export async function getLastCommitByScanPath(path: string): Promise<ICommitInfo | null> {
 
     if (commits.has(path)) {
         return commits.get(path);
     }
+
+    const octokit = get();
 
     const { repo, ref } = context;
 
