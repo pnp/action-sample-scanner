@@ -1,19 +1,26 @@
+import { isPackageFile } from "src/utils";
 import { IPackageFile } from "../types";
+import { not_found } from "../strings";
 
 export const name = "SPFx Version";
 
-export async function execute(_path: string, packageFile: IPackageFile): Promise<string> {
+export async function execute(_path: string, packageFile: IPackageFile | null): Promise<string> {
 
-    if (Reflect.has(packageFile.dependencies, "@microsoft/sp-core-library")) {
+    if (isPackageFile(packageFile) && Reflect.has(packageFile, "dependencies")) {
         
-        return Reflect.get(packageFile.dependencies, "@microsoft/sp-core-library");
+        if (Reflect.has(packageFile.dependencies, "@microsoft/sp-core-library")) {
 
-    } else if (Reflect.has(packageFile.dependencies, "@microsoft/sp-client-base")) {
-
-        return Reflect.get(packageFile.dependencies, "@microsoft/sp-client-base");
-
-    } else {
-
-        return "not found";
+            return Reflect.get(packageFile.dependencies, "@microsoft/sp-core-library");
+    
+        } else if (Reflect.has(packageFile.dependencies, "@microsoft/sp-client-base")) {
+    
+            return Reflect.get(packageFile.dependencies, "@microsoft/sp-client-base");
+    
+        } else {
+    
+            return not_found;
+        }
     }
+
+    return not_found;
 }

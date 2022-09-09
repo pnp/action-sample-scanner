@@ -9741,11 +9741,27 @@ function getDirFilePaths(root) {
 function repoLinkFromScanPath(path) {
     return `../../tree/main/${path}`;
 }
+function isPackageFile(packageFile) {
+    // TODO:: some other validation on package file
+    return typeof packageFile !== "undefined" && packageFile !== null;
+}
+
+;// CONCATENATED MODULE: ./src/strings.ts
+// phrases
+const not_found = "not found";
+const package_json_not_found = "package.json not found";
+// words
+const word_error = "error";
+// summary
+const summary_header_name = "Name";
+const summary_header_path = "Path";
 
 ;// CONCATENATED MODULE: ./src/rules/package-version.ts
+
+
 const package_version_name = "Version";
 async function execute(_path, packageFile) {
-    return packageFile.version;
+    return isPackageFile(packageFile) ? (packageFile === null || packageFile === void 0 ? void 0 : packageFile.version) || not_found : not_found;
 }
 
 // EXTERNAL MODULE: ./node_modules/@actions/github/lib/github.js
@@ -9791,17 +9807,22 @@ async function last_modified_execute(path, _packageFile) {
 }
 
 ;// CONCATENATED MODULE: ./src/rules/spfx-version.ts
+
+
 const spfx_version_name = "SPFx Version";
 async function spfx_version_execute(_path, packageFile) {
-    if (Reflect.has(packageFile.dependencies, "@microsoft/sp-core-library")) {
-        return Reflect.get(packageFile.dependencies, "@microsoft/sp-core-library");
+    if (isPackageFile(packageFile) && Reflect.has(packageFile, "dependencies")) {
+        if (Reflect.has(packageFile.dependencies, "@microsoft/sp-core-library")) {
+            return Reflect.get(packageFile.dependencies, "@microsoft/sp-core-library");
+        }
+        else if (Reflect.has(packageFile.dependencies, "@microsoft/sp-client-base")) {
+            return Reflect.get(packageFile.dependencies, "@microsoft/sp-client-base");
+        }
+        else {
+            return not_found;
+        }
     }
-    else if (Reflect.has(packageFile.dependencies, "@microsoft/sp-client-base")) {
-        return Reflect.get(packageFile.dependencies, "@microsoft/sp-client-base");
-    }
-    else {
-        return "not found";
-    }
+    return not_found;
 }
 
 ;// CONCATENATED MODULE: ./src/rules/index.ts
@@ -9821,6 +9842,7 @@ async function spfx_version_execute(_path, packageFile) {
 
 
 
+
 async function runner(scanPaths) {
     // const rules = await loadRules();
     // the summary rows will contain our output
@@ -9828,11 +9850,11 @@ async function runner(scanPaths) {
     debug(`Loaded ${rules.length} rules`);
     // add headers
     summaryRows.push([{
-            data: "Name",
+            data: summary_header_name,
             header: true,
         },
         {
-            data: "Path",
+            data: summary_header_path,
             header: true,
         },
         ...rules.map((r) => ({
@@ -9845,39 +9867,30 @@ async function runner(scanPaths) {
         debug(`Processing scanning path: '${scanPath}'`);
         const scanSummaryRow = [];
         const packagePath = (0,external_path_.join)(scanPath, "package.json");
-        // if no package.json exists we just do nothing and report that
-        if ((0,external_fs_.existsSync)(packagePath)) {
-            // we load the package file once so every rule doesn't need to as it will likely be used a lot
-            const packageFile = await readJSON(packagePath);
-            scanSummaryRow.push(packageFile.name, `<a href="${repoLink}">${scanPath}</a>`);
-            for (let r = 0; r < rules.length; r++) {
-                const rule = rules[r];
-                try {
-                    let result = await rule[1](scanPath, packageFile);
-                    if (typeof result === "undefined" || result === null) {
-                        result = "";
-                    }
-                    scanSummaryRow.push(result);
+        // we load the package file once so every rule doesn't need to as it will likely be used a lot
+        const packageFile = (0,external_fs_.existsSync)(packagePath) ? await readJSON(packagePath) : null;
+        scanSummaryRow.push((packageFile === null || packageFile === void 0 ? void 0 : packageFile.name) || package_json_not_found, `<a href="${repoLink}">${scanPath}</a>`);
+        for (let r = 0; r < rules.length; r++) {
+            const rule = rules[r];
+            try {
+                let result = await rule[1](scanPath, packageFile);
+                if (typeof result === "undefined" || result === null) {
+                    result = "";
                 }
-                catch (e) {
-                    scanSummaryRow.push("error");
-                    debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`);
-                }
+                scanSummaryRow.push(result);
             }
-        }
-        else {
-            scanSummaryRow.push("package.json not found", `<a href="${repoLink}">${scanPath}</a>`);
-            for (let r = 0; r < rules.length; r++) {
-                scanSummaryRow.push("***");
+            catch (e) {
+                scanSummaryRow.push(word_error);
+                debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`);
             }
         }
         summaryRows.push(scanSummaryRow);
+        debug(JSON.stringify(summaryRows));
+        log("Adding Table");
+        // add a table to the summary
+        core.summary.addTable(summaryRows);
+        core.summary.write();
     }
-    debug(JSON.stringify(summaryRows));
-    log("Adding Table");
-    // add a table to the summary
-    core.summary.addTable(summaryRows);
-    core.summary.write();
 }
 // async function loadRules(path = "/rules"): Promise<RuleTuple[]> {
 //     const rules = [];

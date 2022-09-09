@@ -2,6 +2,7 @@ import { getInput } from "@actions/core";
 import { readFile, lstatSync, readdirSync } from "fs";
 import { join } from "path";
 import { debug } from "./logging";
+import { IPackageFile } from "./types";
 
 export function readJSON<T>(path: string): Promise<T> {
 
@@ -66,3 +67,7 @@ export function repoLinkFromScanPath(path: string): string {
     return `../../tree/main/${path}`;
 }
 
+export function isPackageFile(packageFile: IPackageFile | null | undefined): packageFile is IPackageFile {
+    // TODO:: some other validation on package file
+    return typeof packageFile !== "undefined" && packageFile !== null
+}

@@ -1,8 +1,10 @@
+import { isPackageFile } from "src/utils";
 import { IPackageFile } from "../types";
+import { not_found } from "../strings";
 
 export const name = "Version";
 
-export async function execute(_path: string, packageFile: IPackageFile): Promise<string> {
+export async function execute(_path: string, packageFile: IPackageFile | null): Promise<string> {
 
-    return packageFile.version;
+    return isPackageFile(packageFile) ? packageFile?.version || not_found : not_found;
 }

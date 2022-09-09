@@ -5,7 +5,7 @@ import { context } from "@actions/github";
 export const name = "Last Modified";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export async function execute(path: string, _packageFile: IPackageFile): Promise<string> {
+export async function execute(path: string, _packageFile: IPackageFile | null): Promise<string> {
 
     const octokit = get();
 

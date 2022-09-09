@@ -5,6 +5,12 @@ import { join } from "path";
 import { existsSync } from "fs";
 import { IPackageFile } from "./types";
 import rules from "./rules";
+import {
+    package_json_not_found,
+    summary_header_name,
+    summary_header_path,
+    word_error
+} from "./strings";
 
 export async function runner(scanPaths: string[]) {
 
@@ -17,11 +23,11 @@ export async function runner(scanPaths: string[]) {
 
     // add headers
     summaryRows.push([{
-        data: "Name",
+        data: summary_header_name,
         header: true,
     },
     {
-        data: "Path",
+        data: summary_header_path,
         header: true,
     },
     ...rules.map((r) => ({
@@ -40,55 +46,44 @@ export async function runner(scanPaths: string[]) {
 
         const packagePath = join(scanPath, "package.json");
 
-        // if no package.json exists we just do nothing and report that
-        if (existsSync(packagePath)) {
+        // we load the package file once so every rule doesn't need to as it will likely be used a lot
+        const packageFile = existsSync(packagePath) ? await readJSON<IPackageFile>(packagePath) : null;
 
-            // we load the package file once so every rule doesn't need to as it will likely be used a lot
-            const packageFile = await readJSON<IPackageFile>(packagePath);
+        scanSummaryRow.push(packageFile?.name || package_json_not_found, `<a href="${repoLink}">${scanPath}</a>`);
 
-            scanSummaryRow.push(packageFile.name, `<a href="${repoLink}">${scanPath}</a>`);
+        for (let r = 0; r < rules.length; r++) {
 
-            for (let r = 0; r < rules.length; r++) {
+            const rule = rules[r];
 
-                const rule = rules[r];
+            try {
 
-                try {
+                let result = await rule[1](scanPath, packageFile);
 
-                    let result = await rule[1](scanPath, packageFile);
-
-                    if (typeof result === "undefined" || result === null) {
-                        result = "";
-                    }
-
-                    scanSummaryRow.push(result);
-
-                } catch (e) {
-
-                    scanSummaryRow.push("error");
-                    debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`);
+                if (typeof result === "undefined" || result === null) {
+                    result = "";
                 }
-            }
 
-        } else {
+                scanSummaryRow.push(result);
 
-            scanSummaryRow.push("package.json not found", `<a href="${repoLink}">${scanPath}</a>`);
-            for (let r = 0; r < rules.length; r++) {
-                scanSummaryRow.push("***");
+            } catch (e) {
+
+                scanSummaryRow.push(word_error);
+                debug(`Error for scan ${rule[0]} on ${scanPath}: ${e}`);
             }
         }
 
         summaryRows.push(scanSummaryRow);
+
+
+        debug(JSON.stringify(summaryRows));
+
+        log("Adding Table");
+
+        // add a table to the summary
+        summary.addTable(summaryRows);
+        summary.write();
     }
-
-    debug(JSON.stringify(summaryRows));
-
-    log("Adding Table");
-
-    // add a table to the summary
-    summary.addTable(summaryRows);
-    summary.write();
 }
-
 
 // async function loadRules(path = "/rules"): Promise<RuleTuple[]> {
 
