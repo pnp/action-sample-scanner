@@ -9783,26 +9783,43 @@ function get() {
     return octokit;
 }
 
+;// CONCATENATED MODULE: ./src/commits.ts
+
+
+const commits_octokit = get();
+const commits = new Map();
+async function getLastCommitByScanPath(path) {
+    if (commits.has(path)) {
+        return commits.get(path);
+    }
+    const { repo, ref } = github.context;
+    const value = await commits_octokit.rest.repos.listCommits({
+        ...repo,
+        ref,
+        path,
+        per_page: 1,
+    });
+    let commit = null;
+    if (Array.isArray(value.data) && value.data.length > 0) {
+        commit = value.data[0];
+        commits.set(path, commit);
+    }
+    return commit;
+}
+
 ;// CONCATENATED MODULE: ./src/rules/last-modified.ts
 
 
 const last_modified_name = "Last Modified";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 async function last_modified_execute(path, _packageFile) {
-    var _a, _b;
-    const octokit = get();
-    const { repo, ref } = github.context;
-    const value = await octokit.rest.repos.listCommits({
-        ...repo,
-        ref,
-        path,
-        per_page: 1,
-    });
-    if (value && value.data && Array.isArray(value.data) && value.data.length > 0) {
-        return ((_b = (_a = value.data[0].commit) === null || _a === void 0 ? void 0 : _a.author) === null || _b === void 0 ? void 0 : _b.date) || "none";
+    var _a;
+    const commitInfo = await getLastCommitByScanPath(path);
+    if (commitInfo && commitInfo.commit) {
+        return ((_a = commitInfo.commit.author) === null || _a === void 0 ? void 0 : _a.date) || not_found;
     }
     else {
-        return "none";
+        return not_found;
     }
 }
 

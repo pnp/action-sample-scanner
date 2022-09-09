@@ -1,26 +1,20 @@
 import { IPackageFile } from "../types";
-import { get } from "../octo-kit";
-import { context } from "@actions/github";
+import { getLastCommitByScanPath } from "../commits";
+import { not_found } from "../strings";
 
 export const name = "Last Modified";
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export async function execute(path: string, _packageFile: IPackageFile | null): Promise<string> {
 
-    const octokit = get();
+    const commitInfo = await getLastCommitByScanPath(path);
 
-    const { repo, ref } = context;
+    if (commitInfo && commitInfo.commit) {
 
-    const value = await octokit.rest.repos.listCommits({
-        ...repo,
-        ref,
-        path,
-        per_page: 1,
-    });
+        return commitInfo.commit.author?.date || not_found;
 
-    if (value && value.data && Array.isArray(value.data) && value.data.length > 0) {
-        return value.data[0].commit?.author?.date || "none";
     } else {
-        return "none";
-    }    
+
+        return not_found;
+    }
 }
