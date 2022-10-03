@@ -63,7 +63,7 @@ export async function runner(scanPaths: string[]) {
                     result = "";
                 }
 
-                scanSummaryRow.push(`\u001b[31m${result}`);
+                scanSummaryRow.push(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 2048"><path d="M1920 2048H0L960 128l960 1920zm-896-384H896v128h128v-128zm0-128V896H896v640h128z" fill="#333333"></path></svg>${result}`);
 
             } catch (e) {
 
@@ -76,20 +76,6 @@ export async function runner(scanPaths: string[]) {
     }
 
     log("Adding Table");
-
-
-    //     await core.summary
-    //   .addHeading('Test Results')
-    //   .addCodeBlock(generateTestResults(), "js")
-    //   .addTable([
-    //     [{data: 'File', header: true}, {data: 'Result', header: true}],
-    //     ['foo.js', 'Pass '],
-    //     ['bar.js', 'Fail '],
-    //     ['test.js', 'Pass ']
-    //   ])
-    //   .addLink('View staging deployment!', 'https://github.com')
-    //   .write()
-
 
     // add a table to the summary
     summary
