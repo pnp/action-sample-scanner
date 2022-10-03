@@ -9898,7 +9898,7 @@ async function runner(scanPaths) {
                 if (typeof result === "undefined" || result === null) {
                     result = "";
                 }
-                scanSummaryRow.push(`<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 2048'%3E%3Cpath d='M1920 2048H0L960 128l960 1920zm-896-384H896v128h128v-128zm0-128V896H896v640h128z' fill='%23333333'%3E%3C/path%3E%3C/svg%3E" />${result}`);
+                scanSummaryRow.push(`![warning]("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2048 2048'%3E%3Cpath d='M1920 2048H0L960 128l960 1920zm-896-384H896v128h128v-128zm0-128V896H896v640h128z' fill='%23333333'%3E%3C/path%3E%3C/svg%3E")${result}`);
             }
             catch (e) {
                 scanSummaryRow.push(word_error);
