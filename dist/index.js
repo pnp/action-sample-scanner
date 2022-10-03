@@ -9898,7 +9898,7 @@ async function runner(scanPaths) {
                 if (typeof result === "undefined" || result === null) {
                     result = "";
                 }
-                scanSummaryRow.push(result);
+                scanSummaryRow.push(`\u001b[31m${result}`);
             }
             catch (e) {
                 scanSummaryRow.push(word_error);
@@ -9908,9 +9908,21 @@ async function runner(scanPaths) {
         summaryRows.push(scanSummaryRow);
     }
     log("Adding Table");
+    //     await core.summary
+    //   .addHeading('Test Results')
+    //   .addCodeBlock(generateTestResults(), "js")
+    //   .addTable([
+    //     [{data: 'File', header: true}, {data: 'Result', header: true}],
+    //     ['foo.js', 'Pass '],
+    //     ['bar.js', 'Fail '],
+    //     ['test.js', 'Pass ']
+    //   ])
+    //   .addLink('View staging deployment!', 'https://github.com')
+    //   .write()
     // add a table to the summary
-    core.summary.addTable(summaryRows);
-    core.summary.write();
+    core.summary.addHeading("PnP Sample Scan Results")
+        .addTable(summaryRows)
+        .write();
 }
 // async function loadRules(path = "/rules"): Promise<RuleTuple[]> {
 //     const rules = [];
